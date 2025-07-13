@@ -4,7 +4,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegistrationController;
-Route::get('/', function () {
+Route::get('/index', function () {
     $title = 'IntelliThesis | AI For Scholars';
     return view('index', compact('title'));
 });
@@ -65,9 +65,6 @@ Route::get('/auth-500', function () {
 Route::get('/auth-lock-screen', function () {
     return view('auth-lock-screen');
 });
-Route::get('/auth-login', function () {
-    return view('auth-login');
-});
 Route::get('/auth-maintenance', function () {
     return view('auth-maintenance');
 });
@@ -75,13 +72,28 @@ Route::get('/auth-recover-pw', function () {
     return view('auth-recover-pw');
 });
 //this si section for register
+Route::get('/', function () {
+    return view('auth-register');
+});
 Route::get('/auth-register', function () {
     return view('auth-register');
 });
 // Route::get('/add',[UserController::class,'addUser'])->name('addUser');
 Route::post('/register-user', [RegistrationController::class, 'store'])->name('register-user');
 Route::get('/register-user', [RegistrationController::class, 'store'])->name('register-user');
+Route::get('/auth-login', function () {
+    return view('auth-login');
+})->name('auth.login');
 
+Route::post('/login-user', [RegistrationController::class, 'login']);
+Route::get('/logout', [RegistrationController::class, 'logout']);
+Route::get('/index', function () {
+    if (!session('loggedIn')) {
+        return redirect('/auth-login');
+    }
+    $title = 'IntelliThesis | AI For Scholars';
+    return view('index', compact('title'));
+});
 
 Route::get('/charts-apex', function () {
     return view('charts-apex');

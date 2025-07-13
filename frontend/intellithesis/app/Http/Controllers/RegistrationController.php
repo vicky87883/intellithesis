@@ -26,9 +26,32 @@ class RegistrationController extends Controller
             'terms' => true
         ]);
 
-        return response()->json([
-            'message' => 'Registration successful',
-            'data' => $registration
-        ]);
+        return redirect('/auth-login')->with('success', 'Registration successful. Please log in.');
     }
+    public function login(Request $request)
+{
+    $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string'
+    ]);
+
+    $user = \App\Models\Registration::where('username', $request->username)->first();
+
+    if ($user && \Hash::check($request->password, $user->password)) {
+        session([
+            'loggedIn' => true,
+            'user_name' => $user->username
+        ]);
+        return redirect('/index'); // home page
+    } else {
+        return back()->with('error', 'Invalid credentials');
+    }
+}
+public function logout()
+{
+    session()->flush(); // clear all session data
+    return redirect('/auth-login'); // back to home
+}
+
+
 }
