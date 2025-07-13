@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegistrationController;
 Route::get('/', function () {
     $title = 'IntelliThesis | AI For Scholars';
     return view('index', compact('title'));
@@ -72,9 +74,15 @@ Route::get('/auth-maintenance', function () {
 Route::get('/auth-recover-pw', function () {
     return view('auth-recover-pw');
 });
+//this si section for register
 Route::get('/auth-register', function () {
     return view('auth-register');
 });
+// Route::get('/add',[UserController::class,'addUser'])->name('addUser');
+Route::post('/register-user', [RegistrationController::class, 'store'])->name('register-user');
+Route::get('/register-user', [RegistrationController::class, 'store'])->name('register-user');
+
+
 Route::get('/charts-apex', function () {
     return view('charts-apex');
 });
