@@ -1,10 +1,10 @@
 # IntelliThesis - AI-Powered Thesis Assistant
-
+Live URL-https://intellithesis.com/
 A comprehensive AI-powered thesis writing and research assistant built with modern technologies including Next.js, Express.js, FastAPI, and MongoDB.
 
 ## 🏗️ Architecture
 
-### **PERN Stack + Python AI Backend**
+### **MERN Stack + Python AI Backend**
 
 - **Client**: Next.js 14 with TypeScript and Tailwind CSS
 - **Server**: Express.js with MongoDB for authentication and user management
