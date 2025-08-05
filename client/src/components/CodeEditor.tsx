@@ -38,6 +38,7 @@ export default function CodeEditor({
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [executionTime, setExecutionTime] = useState<number>(0);
   const [copied, setCopied] = useState(false);
+  const [showOutput, setShowOutput] = useState(false);
   const editorRef = useRef<any>(null);
 
   const handleEditorDidMount = (editor: any) => {
@@ -57,6 +58,7 @@ export default function CodeEditor({
         setIsRunning(true);
         setIsSuccess(null);
         setOutput('');
+        setShowOutput(true);
         
         const startTime = performance.now();
         
@@ -99,17 +101,17 @@ export default function CodeEditor({
         setIsRunning(false);
       }
     } else {
-      // Use custom onRun function
       try {
         setIsRunning(true);
         setIsSuccess(null);
         setOutput('');
+        setShowOutput(true);
         
         const startTime = performance.now();
         const result = await onRun(code, language);
-        
-        setOutput(result.output || 'Code executed successfully\n');
         setExecutionTime(performance.now() - startTime);
+        
+        setOutput(typeof result === 'string' ? result : JSON.stringify(result, null, 2));
         setIsSuccess(true);
       } catch (error: any) {
         setOutput(`Error: ${error.message}\n`);
@@ -120,29 +122,37 @@ export default function CodeEditor({
     }
   };
 
+  const stopCode = () => {
+    setIsRunning(false);
+    setIsSuccess(false);
+    setOutput('Execution stopped by user\n');
+  };
+
   const copyCode = async () => {
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error('Failed to copy code:', error);
+    } catch (err) {
+      console.error('Failed to copy code:', err);
     }
   };
 
   const resetCode = () => {
     setCode(defaultValue);
     setOutput('');
+    setShowOutput(false);
     setIsSuccess(null);
     setExecutionTime(0);
   };
 
   const downloadCode = () => {
+    const extension = getFileExtension(language);
     const blob = new Blob([code], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `code.${getFileExtension(language)}`;
+    a.download = `code.${extension}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -162,7 +172,9 @@ export default function CodeEditor({
       php: 'php',
       ruby: 'rb',
       go: 'go',
-      rust: 'rs'
+      rust: 'rs',
+      swift: 'swift',
+      kotlin: 'kt'
     };
     return extensions[lang] || 'txt';
   };
@@ -180,83 +192,92 @@ export default function CodeEditor({
       php: 'PHP',
       ruby: 'Ruby',
       go: 'Go',
-      rust: 'Rust'
+      rust: 'Rust',
+      swift: 'Swift',
+      kotlin: 'Kotlin'
     };
     return names[lang] || lang;
   };
 
   return (
-    <motion.div
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      {/* Editor Header */}
-      <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {getLanguageName(language)}
-            </span>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+        <div className="flex items-center mb-4 sm:mb-0">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+            <Terminal className="w-4 h-4 text-white" />
           </div>
-          
-          <div className="flex items-center space-x-2">
-            <motion.button
-              onClick={copyCode}
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              title="Copy code"
-            >
-              {copied ? <CheckCircle className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-            </motion.button>
-            
-            <motion.button
-              onClick={downloadCode}
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              title="Download code"
-            >
-              <Download className="w-4 h-4" />
-            </motion.button>
-            
-            <motion.button
-              onClick={resetCode}
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              title="Reset code"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </motion.button>
-            
-            <motion.button
-              onClick={runCode}
-              disabled={isRunning}
-              className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition-colors"
-              whileHover={{ scale: isRunning ? 1 : 1.05 }}
-              whileTap={{ scale: isRunning ? 1 : 0.95 }}
-              title="Run code"
-            >
-              {isRunning ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Play className="w-4 h-4" />
-              )}
-              <span>{isRunning ? 'Running...' : 'Run'}</span>
-            </motion.button>
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">
+              {getLanguageName(language)} Editor
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Write and run {getLanguageName(language)} code
+            </p>
           </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-2 sm:gap-3">
+          <motion.button
+            onClick={runCode}
+            disabled={isRunning}
+            className="flex items-center px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg font-medium text-sm transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isRunning ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Play className="w-4 h-4 mr-2" />
+            )}
+            <span className="hidden sm:inline">Run</span>
+          </motion.button>
+
+          <motion.button
+            onClick={stopCode}
+            disabled={!isRunning}
+            className="flex items-center px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white rounded-lg font-medium text-sm transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Square className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">Stop</span>
+          </motion.button>
+
+          <motion.button
+            onClick={copyCode}
+            className="flex items-center px-3 sm:px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium text-sm transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Copy className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">{copied ? 'Copied!' : 'Copy'}</span>
+          </motion.button>
+
+          <motion.button
+            onClick={downloadCode}
+            className="flex items-center px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">Download</span>
+          </motion.button>
+
+          <motion.button
+            onClick={resetCode}
+            className="flex items-center px-3 sm:px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium text-sm transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">Reset</span>
+          </motion.button>
         </div>
       </div>
 
-      {/* Code Editor */}
+      {/* Editor */}
       <div className="relative">
         <Editor
           height={height}
@@ -277,66 +298,53 @@ export default function CodeEditor({
             foldingStrategy: 'indentation',
             showFoldingControls: 'always',
             disableLayerHinting: true,
-            renderLineHighlight: 'all',
-            selectOnLineNumbers: true,
-            glyphMargin: true,
-            useTabStops: false,
-            fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
             scrollbar: {
               vertical: 'visible',
               horizontal: 'visible',
-              verticalScrollbarSize: 17,
-              horizontalScrollbarSize: 17,
-              useShadows: false,
-              verticalHasArrows: true,
-              horizontalHasArrows: true,
+              verticalScrollbarSize: 10,
+              horizontalScrollbarSize: 10
             }
           }}
         />
       </div>
 
       {/* Output Panel */}
-      {(output || isRunning || isSuccess !== null) && (
+      {showOutput && (
         <motion.div
-          className="border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          transition={{ duration: 0.3 }}
+          exit={{ opacity: 0, height: 0 }}
+          className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
         >
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-2">
-                <Terminal className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Output
-                </span>
+          <div className="p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="font-semibold text-gray-900 dark:text-white flex items-center">
+                <Terminal className="w-4 h-4 mr-2" />
+                Output
                 {isSuccess !== null && (
-                  <div className="flex items-center space-x-1">
+                  <span className="ml-2">
                     {isSuccess ? (
                       <CheckCircle className="w-4 h-4 text-green-500" />
                     ) : (
                       <AlertCircle className="w-4 h-4 text-red-500" />
                     )}
-                    <span className={`text-xs ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
-                      {isSuccess ? 'Success' : 'Error'}
-                    </span>
-                  </div>
+                  </span>
                 )}
-              </div>
-              
+              </h4>
               {executionTime > 0 && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   {executionTime.toFixed(2)}ms
                 </span>
               )}
             </div>
-            
-            <div className="bg-black text-green-400 rounded-lg p-4 font-mono text-sm overflow-auto max-h-48">
-              <pre className="whitespace-pre-wrap">{output || 'Ready to run code...'}</pre>
+            <div className="bg-black dark:bg-gray-900 rounded-lg p-4 overflow-auto max-h-64">
+              <pre className="text-green-400 font-mono text-sm whitespace-pre-wrap">
+                {output || 'No output yet. Run your code to see results.'}
+              </pre>
             </div>
           </div>
         </motion.div>
       )}
-    </motion.div>
+    </div>
   );
 } 

@@ -102,7 +102,6 @@ export default function LandingPage() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.6,
         staggerChildren: 0.1
       }
     }
@@ -114,26 +113,7 @@ export default function LandingPage() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
         duration: 0.6
-      }
-    },
-    hover: {
-      y: -10,
-      scale: 1.02,
-      transition: {
-        duration: 0.3
       }
     }
   };
@@ -146,7 +126,7 @@ export default function LandingPage() {
         return Brain;
       case 'Atom':
         return Atom;
-      case 'Flask':
+      case 'TestTube':
         return TestTube;
       case 'Globe':
         return Globe;
@@ -158,7 +138,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Hero Section with Advanced 3D Animations */}
-      <section className="relative overflow-hidden py-20">
+      <section className="relative overflow-hidden py-12 sm:py-16 lg:py-20">
         {/* 3D AI Animation Background */}
         <div className="absolute inset-0">
           {/* Floating AI particles */}
@@ -190,16 +170,16 @@ export default function LandingPage() {
             animate="visible"
           >
             <motion.div
-              className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl mb-6 shadow-2xl"
+              className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl mb-6 shadow-2xl"
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <Brain className="w-10 h-10 text-white" />
+              <Brain className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </motion.div>
 
             <motion.h1
-              className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
               variants={itemVariants}
             >
               Explore Global
@@ -209,7 +189,7 @@ export default function LandingPage() {
             </motion.h1>
 
             <motion.p
-              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
+              className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto px-4"
               variants={itemVariants}
             >
               Discover cutting-edge research across all academic disciplines with AI-powered insights and collaborative tools
@@ -217,13 +197,13 @@ export default function LandingPage() {
 
             {/* Search Bar */}
             <motion.form
-              className="max-w-2xl mx-auto mb-8"
+              className="max-w-2xl mx-auto mb-8 px-4"
               variants={itemVariants}
               onSubmit={handleSearch}
             >
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <MagnifyingGlassIcon className="h-6 w-6 text-gray-400" />
+                  <MagnifyingGlassIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
                 </div>
                 <input
                   type="text"
@@ -231,7 +211,7 @@ export default function LandingPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="block w-full pl-12 pr-20 py-4 border border-gray-300 dark:border-gray-600 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-lg"
+                  className="block w-full pl-12 pr-20 py-3 sm:py-4 border border-gray-300 dark:border-gray-600 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-lg text-base sm:text-lg"
                 />
                 <button
                   type="submit"
@@ -243,260 +223,282 @@ export default function LandingPage() {
             </motion.form>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex flex-col sm:flex-row gap-4 justify-center px-4"
               variants={itemVariants}
             >
               <Link
                 href="/streams"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg"
               >
-                <Sparkles className="w-5 h-5" />
-                Get Started
+                Explore Streams
+                <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
               <Link
-                href="/about"
-                className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
+                href="/auth/signup"
+                className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 text-lg"
               >
-                Learn More
+                Get Started
               </Link>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Research Streams Section with Enhanced UI */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      {/* Research Streams Section */}
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-16"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <motion.h2
-              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
-              variants={itemVariants}
-            >
-              Research Streams
-            </motion.h2>
-            <motion.p
-              className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-              variants={itemVariants}
-            >
-              Explore cutting-edge research across diverse academic disciplines with AI-powered insights
-            </motion.p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Popular Research Streams
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Explore trending research areas and discover new opportunities for collaboration
+            </p>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {filteredStreams.map((stream, index) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {filteredStreams.slice(0, 6).map((stream, index) => {
               const IconComponent = getIconComponent(stream.icon);
-
               return (
                 <motion.div
-                  key={stream.id}
-                  className="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
-                  variants={cardVariants}
-                  whileHover="hover"
+                  key={stream.slug}
+                  className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
                 >
-                  {/* 3D Gradient Background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Floating Elements */}
-                  <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                  <div className="absolute bottom-4 left-4 w-3 h-3 bg-purple-400 rounded-full animate-pulse delay-500"></div>
-
-                  <div className="relative z-10">
-                    {/* Icon with 3D Effect */}
-                    <motion.div
-                      className={`w-16 h-16 bg-gradient-to-r ${stream.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-2xl group-hover:shadow-3xl transition-all duration-300`}
-                      whileHover={{ rotate: 5, scale: 1.1 }}
-                    >
-                      <IconComponent className="w-8 h-8 text-white" />
-                    </motion.div>
-
-                    {/* Content */}
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                      {stream.name}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed">
-                      {stream.description}
-                    </p>
-
-                    {/* Enhanced Stats */}
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                          {stream.stats.papers.toLocaleString()}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Papers</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-green-600 dark:text-green-400">
-                          {stream.stats.researchers.toLocaleString()}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Researchers</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
-                          {stream.stats.institutions.toLocaleString()}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Institutions</div>
-                      </div>
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mr-4">
+                      <IconComponent className="w-6 h-6 text-white" />
                     </div>
-
-                    {/* CTA Button */}
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        {stream.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {stream.stats.papers.toLocaleString()} papers
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3">
+                    {stream.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="flex items-center">
+                        <Users className="w-4 h-4 mr-1" />
+                        {stream.stats.researchers.toLocaleString()}+
+                      </span>
+                      <span className="flex items-center">
+                        <TrendingUp className="w-4 h-4 mr-1" />
+                        {stream.stats.institutions}+ institutions
+                      </span>
+                    </div>
                     <Link
                       href={`/streams/${stream.slug}`}
-                      className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 group"
+                      className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
                     >
-                      <span>Explore Topics</span>
-                      <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      Explore
+                      <ChevronRight className="w-4 h-4 ml-1" />
                     </Link>
                   </div>
                 </motion.div>
               );
             })}
-          </motion.div>
+          </div>
 
-          {/* No Results Message */}
-          {filteredStreams.length === 0 && searchQuery && (
-            <motion.div
-              className="text-center py-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Link
+              href="/streams"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
-              <div className="text-gray-500 dark:text-gray-400 text-lg">
-                No research streams found for "{searchQuery}"
-              </div>
-              <button
-                onClick={() => setSearchQuery('')}
-                className="mt-4 text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                Clear search
-              </button>
-            </motion.div>
-          )}
+              View All Streams
+              <ArrowRightIcon className="ml-2 h-5 w-5" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
-      {/* Enhanced Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
+      {/* Features Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-16"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <motion.h2
-              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
-              variants={itemVariants}
-            >
-              Trusted by Researchers Worldwide
-            </motion.h2>
-            <motion.p
-              className="text-xl text-gray-600 dark:text-gray-300"
-              variants={itemVariants}
-            >
-              Join thousands of researchers who trust IntelliThesis
-            </motion.p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Powerful Features for Researchers
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Everything you need to accelerate your research and collaborate effectively
+            </p>
           </motion.div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+            {[
+              {
+                icon: Brain,
+                title: 'AI-Powered Insights',
+                description: 'Get intelligent recommendations and insights from our advanced AI research assistant.'
+              },
+              {
+                icon: Users,
+                title: 'Collaborative Workspace',
+                description: 'Work together with researchers worldwide in real-time collaborative environments.'
+              },
+              {
+                icon: BarChart3,
+                title: 'Advanced Analytics',
+                description: 'Track your research progress with comprehensive analytics and visualizations.'
+              },
+              {
+                icon: ShieldCheckIcon,
+                title: 'Secure & Private',
+                description: 'Your research data is protected with enterprise-grade security measures.'
+              },
+              {
+                icon: Zap,
+                title: 'Real-time Updates',
+                description: 'Stay updated with real-time notifications and live collaboration features.'
+              },
+              {
+                icon: Award,
+                title: 'Recognition System',
+                description: 'Get recognized for your contributions and build your research reputation.'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="text-center p-6 sm:p-8"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <feature.icon className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 sm:py-20 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              What Researchers Say
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Join thousands of researchers who trust IntelliThesis for their research needs
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.id}
-                className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300"
-                variants={cardVariants}
-                whileHover={{ y: -5 }}
+                className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
-                <div className="flex items-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-                    <span className="text-white font-bold text-xl">
-                      {testimonial.name.charAt(0)}
+                <div className="flex items-center mb-4">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 italic">
+                  "{testimonial.content}"
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mr-4">
+                    <span className="text-white font-semibold">
+                      {testimonial.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white text-lg">
+                    <h4 className="font-semibold text-gray-900 dark:text-white">
                       {testimonial.name}
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {testimonial.role} at {testimonial.institution}
                     </p>
                   </div>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  "{testimonial.content}"
-                </p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Enhanced Footer */}
-      <footer className="bg-gray-900 dark:bg-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand */}
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mr-4">
-                  <Brain className="w-7 h-7 text-white" />
-                </div>
-                <span className="text-3xl font-bold">IntelliThesis</span>
-              </div>
-              <p className="text-gray-400 mb-8 max-w-md leading-relaxed">
-                Empowering researchers worldwide with AI-driven insights and collaborative tools for academic excellence.
-              </p>
-              <div className="flex space-x-4">
-                <button className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-all duration-300 hover:scale-110">
-                  <UserGroupIcon className="w-6 h-6" />
-                </button>
-                <button className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gray-700 transition-all duration-300 hover:scale-110">
-                  <ShieldCheckIcon className="w-6 h-6" />
-                </button>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
-              <ul className="space-y-3">
-                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors duration-300">About Us</Link></li>
-                <li><Link href="/streams" className="text-gray-400 hover:text-white transition-colors duration-300">Research Streams</Link></li>
-                <li><Link href="/contact" className="text-gray-400 hover:text-white transition-colors duration-300">Contact</Link></li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h3 className="text-lg font-semibold mb-6">Legal</h3>
-              <ul className="space-y-3">
-                <li><Link href="/privacy" className="text-gray-400 hover:text-white transition-colors duration-300">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors duration-300">Terms of Service</Link></li>
-                <li><Link href="/cookies" className="text-gray-400 hover:text-white transition-colors duration-300">Cookie Policy</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center">
-            <p className="text-gray-400">
-              © 2024 IntelliThesis. All rights reserved.
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+              Ready to Transform Your Research?
+            </h2>
+            <p className="text-xl text-blue-100 mb-8">
+              Join thousands of researchers and start your journey with IntelliThesis today
             </p>
-          </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/auth/signup"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                Get Started Free
+                <ArrowRightIcon className="ml-2 h-5 w-5" />
+              </Link>
+              <Link
+                href="/streams"
+                className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-2xl hover:bg-white hover:text-blue-600 transition-all duration-300"
+              >
+                Explore Streams
+              </Link>
+            </div>
+          </motion.div>
         </div>
-      </footer>
+      </section>
     </div>
   );
 }
