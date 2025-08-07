@@ -14,11 +14,12 @@ import contactRoutes from './routes/contact';
 import planRoutes from './routes/plans';
 import jobRoutes from './routes/jobs';
 import blogRoutes from './routes/blogs';
+import onboardingRoutes from './routes/onboarding';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 // Security middleware
 app.use(helmet({
@@ -110,6 +111,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/plans', planRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api', onboardingRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 
 # Import routers
-from api.routes import auth, research_assistant, documents, users
+from api.routes import auth, research_assistant, documents, users, onboarding
 from core.config import settings
 from core.database import engine, Base
 
@@ -50,7 +50,9 @@ app.add_middleware(
         "http://localhost:3001",
         "http://localhost:3002",
         "http://localhost:3003",
-        "http://localhost:5006"
+        "http://localhost:5006",
+        "https://intellithesis.com",
+        "https://www.intellithesis.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -66,6 +68,7 @@ app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(research_assistant.router, prefix="/api/research-assistant", tags=["Research Assistant"])
 app.include_router(documents.router, prefix="/api/documents", tags=["Documents"])
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
+app.include_router(onboarding.router, prefix="/api", tags=["Onboarding"])
 
 @app.get("/")
 async def root():
@@ -90,4 +93,4 @@ if __name__ == "__main__":
         port=8000,
         reload=True,
         log_level="info"
-    ) 
+    )

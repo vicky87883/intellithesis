@@ -17,10 +17,10 @@ const nextConfig: NextConfig = {
   },
   env: {
     CUSTOM_KEY: 'my-value',
-    NEXTAUTH_URL: 'http://localhost:3000',
+    NEXTAUTH_URL: 'https://intellithesis.com',
     NEXTAUTH_SECRET: 'your-secret-key-here',
-    NEXT_PUBLIC_API_URL: 'http://localhost:5000',
-    NEXT_PUBLIC_AI_BACKEND_URL: 'http://localhost:8000',
+    NEXT_PUBLIC_API_URL: 'https://intellithesis.com/api',
+    NEXT_PUBLIC_AI_BACKEND_URL: 'https://intellithesis.com/ai',
   },
 };
 

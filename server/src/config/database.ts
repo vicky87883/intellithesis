@@ -8,7 +8,7 @@ const sequelize = new Sequelize({
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5432'),
   username: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'password',
+  password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'intellithesis',
   logging: process.env.NODE_ENV === 'development' ? console.log : false,
   pool: {
@@ -18,7 +18,7 @@ const sequelize = new Sequelize({
     idle: 10000
   },
   dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? { require: true, rejectUnauthorized: false } : false
+    ssl: false
   },
   define: {
     timestamps: true,

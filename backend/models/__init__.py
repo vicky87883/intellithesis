@@ -1,1 +1,1 @@
-# Models package 
+from . import user, chat, document, onboarding 

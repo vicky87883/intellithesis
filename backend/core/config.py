@@ -3,8 +3,8 @@ from typing import Optional
 import os
 
 class Settings(BaseSettings):
-    # Database
-    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/intellithesis"
+    # Database - Using PostgreSQL for production
+    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/intellithesis_prod"
     
     # JWT
     SECRET_KEY: str = "your-super-secret-key-change-this-in-production"
@@ -29,10 +29,12 @@ class Settings(BaseSettings):
         "http://localhost:3001",
         "http://localhost:3002",
         "http://localhost:3003",
-        "http://localhost:5006"
+        "http://localhost:5006",
+        "https://intellithesis.com",
+        "https://www.intellithesis.com"
     ]
     
     class Config:
         env_file = ".env"
 
-settings = Settings() 
+settings = Settings()

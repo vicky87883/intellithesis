@@ -234,7 +234,7 @@ export default function LandingPage() {
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
               <Link
-                href="/auth/signup"
+                href="/onboarding"
                 className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 text-lg"
               >
                 Get Started

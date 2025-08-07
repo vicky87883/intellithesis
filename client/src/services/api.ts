@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-const AI_BACKEND_URL = process.env.NEXT_PUBLIC_AI_BACKEND_URL || 'http://localhost:8000';
+// Hardcode production URLs to override any localhost environment variables
+const API_BASE_URL = 'https://intellithesis.com/api';
+const AI_BACKEND_URL = 'https://intellithesis.com/ai';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -46,6 +47,20 @@ api.interceptors.response.use(
   }
 );
 
+// Helper function to get user ID from localStorage (fallback)
+const getUserId = () => {
+  const user = localStorage.getItem('user');
+  if (user) {
+    try {
+      const userData = JSON.parse(user);
+      return userData.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a'; // fallback for testing
+    } catch (e) {
+      return 'eb5dba5c-ab36-4469-a169-bb987d61f67a'; // fallback for testing
+    }
+  }
+  return 'eb5dba5c-ab36-4469-a169-bb987d61f67a'; // fallback for testing
+};
+
 // API endpoints
 export const authAPI = {
   register: (userData: any) => api.post('/auth/register', userData),
@@ -71,18 +86,80 @@ export const documentAPI = {
 };
 
 export const chatAPI = {
-  sendMessage: (message: string) => aiApi.post('/research-assistant/chat', { message }),
-  getHistory: () => aiApi.get('/research-assistant/history'),
+  // Updated to accept user_id parameter for NextAuth compatibility
+  sendMessage: (message: string, context: string = '', sessionId: string = '', userId?: string) => 
+    aiApi.post('/research-assistant/chat/json', { 
+      message, 
+      user_id: userId || getUserId(),
+      context,
+      session_id: sessionId
+    }),
+  
+  // Get chat sessions for user
+  getHistory: (userId?: string) => aiApi.get(`/research-assistant/sessions/${userId || getUserId()}`),
+  
+  // Alternative JSON endpoint for history
+  getHistoryJSON: (userId?: string) => aiApi.post('/research-assistant/history', { user_id: userId || getUserId() }),
+  
+  // Get messages for specific session
+  getSessionMessages: (sessionId: string) => aiApi.get(`/research-assistant/session/${sessionId}/messages`),
+  
+  // Delete a session
+  deleteSession: (sessionId: string) => aiApi.delete(`/research-assistant/session/${sessionId}`),
+  
+  // Health check
+  getHealth: () => aiApi.get('/research-assistant/health'),
 };
 
 export const researchAssistantAPI = {
-  analyzeDocument: (file: File) => {
+  // Upload and analyze document
+  uploadDocument: (file: File, sessionId: string = '', documentType: string = 'general', userId?: string) => {
     const formData = new FormData();
     formData.append('file', file);
-    return aiApi.post('/research-assistant/analyze-document', formData, {
+    formData.append('user_id', userId || getUserId());
+    formData.append('session_id', sessionId);
+    formData.append('document_type', documentType);
+    return aiApi.post('/research-assistant/upload-document', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },
+  
+  // Upload and process image
+  uploadImage: (file: File, sessionId: string = '', task: string = 'describe', userId?: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId || getUserId());
+    formData.append('session_id', sessionId);
+    formData.append('task', task);
+    return aiApi.post('/research-assistant/upload-image', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  
+  // Process voice message
+  processVoice: (audioFile: File, sessionId: string = '', userId?: string) => {
+    const formData = new FormData();
+    formData.append('audio_file', audioFile);
+    formData.append('user_id', userId || getUserId());
+    formData.append('session_id', sessionId);
+    return aiApi.post('/research-assistant/voice', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  
+  // Health check
+  getHealth: () => aiApi.get('/research-assistant/health'),
+  
+  // Legacy endpoints for compatibility
+  analyzeDocument: (file: File, userId?: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId || getUserId());
+    return aiApi.post('/research-assistant/upload-document', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  
   getAnalysis: (documentId: string) => aiApi.get(`/research-assistant/analysis/${documentId}`),
   generateSummary: (documentId: string) => aiApi.post(`/research-assistant/summary/${documentId}`),
   getSuggestions: (documentId: string) => aiApi.get(`/research-assistant/suggestions/${documentId}`),
@@ -93,4 +170,4 @@ export const dashboardAPI = {
   getRecentActivity: () => api.get('/dashboard/activity'),
 };
 
-export default api; 
+export default api;

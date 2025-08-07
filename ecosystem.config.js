@@ -28,8 +28,13 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 5000,
-        DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/intellithesis_prod',
-        JWT_SECRET: 'intellithesis_jwt_secret_2024'
+        DB_HOST: 'localhost',
+        DB_PORT: '5432',
+        DB_USER: 'postgres',
+        DB_PASSWORD: 'postgres',
+        DB_NAME: 'intellithesis_prod',
+        JWT_SECRET: 'intellithesis_jwt_secret_2024',
+        CLIENT_URL: 'https://intellithesis.com'
       },
       instances: 1,
       autorestart: true,
@@ -44,11 +49,18 @@ module.exports = {
       name: 'intellithesis-ai',
       cwd: '/www/wwwroot/intellithesis/backend',
       script: '/bin/bash',
-      args: '-c "source .venv/bin/activate && export GROQ_API_KEY=$GROQ_API_KEY && python3 main.py"',
+      args: '-c "source .venv/bin/activate && python3 main.py"',
       env: {
-        GROQ_API_KEY: 'your_groq_api_key_here',
+        GROQ_API_KEY: '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',
         DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/intellithesis_prod',
-        JWT_SECRET: 'intellithesis_jwt_secret_2024'
+        SECRET_KEY: 'intellithesis_jwt_secret_2024',
+        ALGORITHM: 'HS256',
+        ACCESS_TOKEN_EXPIRE_MINUTES: '30',
+        UPLOAD_DIR: 'uploads',
+        MAX_FILE_SIZE: '10485760',
+        ALLOWED_EXTENSIONS: '["pdf", "jpg", "jpeg", "png", "txt", "doc", "docx"]',
+        REDIS_URL: 'redis://localhost:6379',
+        ALLOWED_ORIGINS: '["http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:3003", "http://localhost:3004", "http://localhost:5006", "https://intellithesis.com"]'
       },
       instances: 1,
       autorestart: true,
@@ -60,4 +72,4 @@ module.exports = {
       time: true
     }
   ]
-}; 
+};

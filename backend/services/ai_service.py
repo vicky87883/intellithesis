@@ -1,12 +1,9 @@
 import os
 from typing import List, Dict, Any, Optional
-from langchain_groq import ChatGroq
-from langchain.schema import HumanMessage, SystemMessage
-from langchain_community.embeddings import OpenAIEmbeddings
-from langchain_community.vectorstores import FAISS
 import nltk
 from nltk.corpus import wordnet
 import json
+import httpx
 
 # Download required NLTK data
 try:
@@ -16,22 +13,57 @@ except LookupError:
 
 class AIService:
     def __init__(self):
-        # Initialize Groq instead of OpenAI
-        self.groq_api_key = os.getenv("GROQ_API_KEY", "")
+        # Direct API key assignment
+        self.groq_api_key = "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"
+        self.groq_url = "https://api.groq.com/openai/v1/chat/completions"
+        
+        print(f"🔍 Using direct API key: {'Found' if self.groq_api_key else 'Not found'}")
         
         if self.groq_api_key:
             try:
-                self.llm = ChatGroq(
-                    groq_api_key=self.groq_api_key,
-                    model_name="llama3-70b-8192",  # Using Llama model as requested
-                    temperature=0.7,
-                    max_tokens=4096
-                )
+                # Test the API connection
+                test_response = self._call_groq_api("Hello", "You are a helpful assistant.")
+                if test_response:
+                    print("✅ Groq API connection successful")
+                    self.llm = True  # Use boolean to indicate API is working
+                else:
+                    print("❌ Groq API connection failed")
+                    self.llm = None
             except Exception as e:
-                print(f"Failed to initialize Groq: {e}")
+                print(f"❌ Failed to initialize Groq API: {e}")
                 self.llm = None
         else:
+            print("⚠️ No API key available, running in demo mode")
             self.llm = None
+
+    def _call_groq_api(self, message: str, system_prompt: str = "") -> str:
+        """Call Groq API directly using httpx"""
+        try:
+            headers = {
+                "Authorization": f"Bearer {self.groq_api_key}",
+                "Content-Type": "application/json"
+            }
+            
+            data = {
+                "model": "llama3-70b-8192",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": message}
+                ],
+                "temperature": 0.7,
+                "max_tokens": 4096
+            }
+            
+            with httpx.Client(timeout=30.0) as client:
+                response = client.post(self.groq_url, headers=headers, json=data)
+                response.raise_for_status()
+                
+                result = response.json()
+                return result["choices"][0]["message"]["content"]
+                
+        except Exception as e:
+            print(f"Error calling Groq API: {e}")
+            return None
 
     def chat(self, message: str, context: str = "", user_id: str = None) -> str:
         """Chat with the AI assistant"""
@@ -40,7 +72,7 @@ class AIService:
         
         try:
             # Create system message for research assistant context
-            system_prompt = """You are IntelliThesis, an intelligent research assistant designed to help with academic research, document analysis, and scholarly writing. 
+            system_prompt = f"""You are IntelliThesis, an intelligent research assistant designed to help with academic research, document analysis, and scholarly writing. 
 
 Your capabilities include:
 - Analyzing research papers and academic documents
@@ -54,15 +86,13 @@ Always provide well-reasoned, evidence-based responses. If you're unsure about s
 
 Current context: {context}"""
 
-            # Prepare messages
-            messages = [
-                SystemMessage(content=system_prompt.format(context=context)),
-                HumanMessage(content=message)
-            ]
+            # Call Groq API directly
+            response = self._call_groq_api(message, system_prompt)
             
-            # Get response from Groq
-            response = self.llm.invoke(messages)
-            return response.content
+            if response:
+                return response
+            else:
+                return "I encountered an error while processing your request. Please try again."
             
         except Exception as e:
             print(f"Error in chat: {e}")
@@ -90,24 +120,29 @@ Document content:
 
 Provide the analysis in JSON format with keys: summary, key_points, implications, suggestions"""
 
-            messages = [
-                SystemMessage(content="You are a research document analyst. Provide structured analysis in JSON format."),
-                HumanMessage(content=analysis_prompt)
-            ]
+            system_prompt = "You are a research document analyst. Provide structured analysis in JSON format."
             
-            response = self.llm.invoke(messages)
+            response = self._call_groq_api(analysis_prompt, system_prompt)
             
-            # Try to parse JSON response
-            try:
-                analysis = json.loads(response.content)
-                return analysis
-            except json.JSONDecodeError:
-                # If JSON parsing fails, return structured text
+            if response:
+                # Try to parse JSON response
+                try:
+                    analysis = json.loads(response)
+                    return analysis
+                except json.JSONDecodeError:
+                    # If JSON parsing fails, return structured text
+                    return {
+                        "summary": response[:200] + "...",
+                        "key_points": ["Analysis completed"],
+                        "implications": ["Document processed"],
+                        "suggestions": ["Review the full analysis"]
+                    }
+            else:
                 return {
-                    "summary": response.content[:200] + "...",
-                    "key_points": ["Analysis completed"],
-                    "implications": ["Document processed"],
-                    "suggestions": ["Review the full analysis"]
+                    "summary": "Analysis failed",
+                    "key_points": ["Error occurred"],
+                    "implications": ["Unable to process"],
+                    "suggestions": ["Try again later"]
                 }
                 
         except Exception as e:
@@ -162,4 +197,4 @@ Provide the analysis in JSON format with keys: summary, key_points, implications
             
         except Exception as e:
             print(f"Error generating response: {e}")
-            return f"I encountered an error: {str(e)}. Please try again." 
+            return f"I encountered an error: {str(e)}. Please try again."

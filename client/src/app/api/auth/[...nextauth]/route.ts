@@ -21,7 +21,7 @@ const authOptions: NextAuthOptions = {
           console.log('Attempting authentication for:', credentials.email);
           
           // Call your backend API endpoint
-          const response = await fetch('http://localhost:5000/api/auth/login', {
+          const response = await fetch('https://intellithesis.com/api/auth/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -72,27 +72,46 @@ const authOptions: NextAuthOptions = {
         token.accessToken = user.accessToken;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
+        token.userId = user.id; // Store the user ID
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.sub as string;
+        session.user.id = token.userId as string; // Use the stored user ID
         session.user.accessToken = token.accessToken as string;
         session.user.firstName = token.firstName as string;
         session.user.lastName = token.lastName as string;
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // Force all redirects to use the production domain
+      const productionUrl = 'https://intellithesis.com';
+      
+      // If the URL is relative, prepend the production domain
+      if (url.startsWith('/')) {
+        return `${productionUrl}${url}`;
+      }
+      
+      // If the URL is from the same origin, use it
+      if (url.startsWith(productionUrl)) {
+        return url;
+      }
+      
+      // For any other URL, redirect to the home page
+      return productionUrl;
+    },
   },
   pages: {
     signIn: '/auth/signin',
+    signOut: '/',
   },
-  secret: process.env.NEXTAUTH_SECRET || 'your-secret-key',
-  debug: true, // Enable debug mode
+  secret: process.env.NEXTAUTH_SECRET || 'intellithesis_nextauth_secret_2024_production',
+  debug: false, // Disable debug in production
 };
 
 // Create the handler
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };

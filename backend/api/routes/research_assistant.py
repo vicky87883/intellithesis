@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Form
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Form, Body
 from sqlalchemy.orm import Session
 from typing import List, Optional
 import json
 from datetime import datetime
 import os
 import uuid
+from pydantic import BaseModel
 
 from core.database import get_db
 from services.ai_service import AIService
@@ -14,6 +15,16 @@ from models.chat import ChatSession, ChatMessage
 router = APIRouter()
 ai_service = AIService()
 
+# Pydantic models for JSON requests
+class ChatRequest(BaseModel):
+    message: str
+    user_id: str
+    context: Optional[str] = ""
+    session_id: Optional[str] = ""
+
+class HistoryRequest(BaseModel):
+    user_id: str
+
 @router.post("/chat")
 async def chat_with_assistant(
     message: str = Form(...),
@@ -22,7 +33,19 @@ async def chat_with_assistant(
     session_id: str = Form(""),
     db: Session = Depends(get_db)
 ):
-    """Chat with the research assistant and store in database"""
+    """Chat with the research assistant and store in database (Form data)"""
+    return await _process_chat(message, context, user_id, session_id, db)
+
+@router.post("/chat/json")
+async def chat_with_assistant_json(
+    request: ChatRequest = Body(...),
+    db: Session = Depends(get_db)
+):
+    """Chat with the research assistant and store in database (JSON data)"""
+    return await _process_chat(request.message, request.context, request.user_id, request.session_id, db)
+
+async def _process_chat(message: str, context: str, user_id: str, session_id: str, db: Session):
+    """Process chat request (shared logic)"""
     try:
         # Validate user exists
         user = db.query(User).filter(User.id == user_id).first()
@@ -108,6 +131,22 @@ async def get_user_sessions(
     except Exception as e:
         print(f"Error fetching sessions: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch sessions: {str(e)}")
+
+@router.get("/history/{user_id}")
+async def get_user_history(
+    user_id: str,
+    db: Session = Depends(get_db)
+):
+    """Get chat history for a user (alias for sessions)"""
+    return await get_user_sessions(user_id, db)
+
+@router.post("/history")
+async def get_user_history_json(
+    request: HistoryRequest = Body(...),
+    db: Session = Depends(get_db)
+):
+    """Get chat history for a user (JSON request)"""
+    return await get_user_sessions(request.user_id, db)
 
 @router.get("/session/{session_id}/messages")
 async def get_session_messages(
@@ -337,7 +376,7 @@ async def upload_and_process_image(
         result_message = ChatMessage(
             session_id=session_id,
             role="assistant",
-            content=f"🖼️ **{file.filename}** uploaded!\n\n{result}",
+            content=f"��️ **{file.filename}** uploaded!\n\n{result}",
             message_type="text"
         )
         db.add(result_message)
@@ -441,4 +480,4 @@ async def health_check():
         "ai_service": "Groq (Llama3-70b-8192)",
         "features": ["chat", "file_upload", "voice", "database_storage"],
         "timestamp": datetime.utcnow().isoformat()
-    } 
+    }
