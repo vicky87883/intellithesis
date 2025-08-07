@@ -51,7 +51,7 @@ module.exports = {
       script: '/bin/bash',
       args: '-c "source .venv/bin/activate && python3 main.py"',
       env: {
-        GROQ_API_KEY: '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',
+        GROQ_API_KEY: process.env.GROQ_API_KEY || '',
         DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/intellithesis_prod',
         SECRET_KEY: 'intellithesis_jwt_secret_2024',
         ALGORITHM: 'HS256',

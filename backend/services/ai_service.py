@@ -13,8 +13,8 @@ except LookupError:
 
 class AIService:
     def __init__(self):
-        # Direct API key assignment
-        self.groq_api_key = "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"
+        # Get API key from environment variable
+        self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.groq_url = "https://api.groq.com/openai/v1/chat/completions"
         
         print(f"🔍 Using direct API key: {'Found' if self.groq_api_key else 'Not found'}")
