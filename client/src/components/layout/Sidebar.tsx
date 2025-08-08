@@ -68,21 +68,21 @@ export default function Sidebar({ isOpen, onClose, className = '' }: SidebarProp
           ${className}
         `}
       >
-        <div className="flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 shadow-lg">
-          {/* Logo Section */}
-          <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center space-x-3">
-              {/* Logo */}
+        <div className="flex flex-col h-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+          {/* Enhanced Logo Section */}
+          <div className="flex items-center justify-between px-6 py-8 border-b border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex items-center space-x-4">
+              {/* Enhanced Logo */}
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Brain className="w-5 h-5 text-white" />
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <Brain className="w-7 h-7 text-white" />
                 </div>
               </div>
               
-              {/* Brand Name - Hidden when collapsed */}
+              {/* Enhanced Brand Name - Hidden when collapsed */}
               {!collapsed && (
                 <div className="flex-shrink-0">
-                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                     IntelliThesis
                   </h1>
                 </div>

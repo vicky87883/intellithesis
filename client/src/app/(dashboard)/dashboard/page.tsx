@@ -28,10 +28,12 @@ export default function DashboardPage() {
   // Show loading while checking authentication
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+          <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
+          </div>
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -105,48 +107,60 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
-        <h1 className="text-2xl font-bold mb-2">
-          Welcome back, {session.user?.firstName || session.user?.name}!
-        </h1>
-        <p className="text-blue-100">
-          Here's what's happening with your research today.
-        </p>
+    <div className="space-y-8">
+      {/* Enhanced Welcome Section */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl p-8 text-white shadow-2xl">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-3">
+              Welcome back, {session.user?.firstName || session.user?.name}! 👋
+            </h1>
+            <p className="text-blue-100 text-lg">
+              Here's what's happening with your research today.
+            </p>
+          </div>
+          <div className="hidden md:block">
+            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-white rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => {
+      {/* Enhanced Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.name}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700"
+              className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:scale-105 transition-all duration-300"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                     {stat.name}
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-3xl font-bold text-gray-900 dark:text-white">
                     {stat.value}
                   </p>
                 </div>
-                <div className={`w-12 h-12 bg-gradient-to-r ${stat.color} rounded-lg flex items-center justify-center`}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className={`w-14 h-14 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                  <Icon className="w-7 h-7 text-white" />
                 </div>
               </div>
-              <div className="mt-4">
-                <span className={`text-sm font-medium ${
+              <div className="mt-6">
+                <span className={`text-sm font-semibold ${
                   stat.changeType === 'positive'
                     ? 'text-green-600 dark:text-green-400'
                     : 'text-red-600 dark:text-red-400'
                 }`}>
                   {stat.change}
                 </span>
-                <span className="text-sm text-gray-600 dark:text-gray-400 ml-1">
+                <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
                   from last month
                 </span>
               </div>

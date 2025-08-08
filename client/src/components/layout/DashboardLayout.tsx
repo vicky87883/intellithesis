@@ -35,8 +35,8 @@ export default function DashboardLayout({ children, pageTitle = 'Dashboard' }: D
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Enhanced Sidebar */}
       <Sidebar 
         isOpen={sidebarOpen} 
         onClose={closeSidebar}
@@ -44,16 +44,18 @@ export default function DashboardLayout({ children, pageTitle = 'Dashboard' }: D
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Navbar */}
+        {/* Enhanced Top Navbar */}
         <TopNavbar 
           pageTitle={pageTitle} 
           onSidebarToggle={toggleSidebar}
         />
         
-        {/* Page Content */}
+        {/* Enhanced Page Content */}
         <main className="flex-1 overflow-auto">
-          <div className="p-4 sm:p-6 lg:p-8">
-            {children}
+          <div className="p-6 sm:p-8 lg:p-10">
+            <div className="max-w-7xl mx-auto">
+              {children}
+            </div>
           </div>
         </main>
       </div>
