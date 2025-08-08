@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
+import { AnimatePresence } from "framer-motion";
 
 const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins"
+});
 
 export const metadata: Metadata = {
   title: "IntelliThesis - Research Platform",
@@ -13,6 +19,7 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
 
 export default function RootLayout({
@@ -21,12 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${inter.className} ${poppins.variable} antialiased`}>
         <SessionProvider>
-          <div className="min-h-screen bg-white dark:bg-gray-900">
-            {children}
-          </div>
+          <AnimatePresence mode="wait">
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+              {children}
+            </div>
+          </AnimatePresence>
         </SessionProvider>
       </body>
     </html>
