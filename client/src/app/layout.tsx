@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
@@ -19,7 +19,12 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -28,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className={`${inter.className} ${poppins.variable} antialiased`}>
         <SessionProvider>
           <AnimatePresence mode="wait">

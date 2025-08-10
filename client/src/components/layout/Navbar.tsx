@@ -79,10 +79,11 @@ export default function Navbar() {
 
   const navigationItems = [
     { name: 'Home', href: '/', icon: HomeIcon },
-    { name: 'Research', href: '/research', icon: AcademicCapIcon },
-    { name: 'Documents', href: '/documents', icon: DocumentTextIcon },
-    { name: 'Assistant', href: '/research-assistant', icon: ChatBubbleLeftRightIcon },
-    { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+    { name: 'Streams', href: '/streams', icon: AcademicCapIcon },
+    { name: 'Blogs', href: '/blogs', icon: DocumentTextIcon },
+    { name: 'Careers', href: '/careers', icon: AcademicCapIcon },
+    { name: 'Pricing', href: '/pricing', icon: Cog6ToothIcon },
+    { name: 'Contact', href: '/contact', icon: ChatBubbleLeftRightIcon },
   ];
 
   return (

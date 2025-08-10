@@ -43,10 +43,14 @@ export default function PricingPage() {
 
   const fetchPlans = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/plans');
+      const response = await fetch('http://localhost:5002/api/plans');
       if (response.ok) {
         const data = await response.json();
         setPlans(data.plans);
+      } else {
+        console.error('API response not ok:', response.status);
+        // Fallback to default plans if API fails
+        setPlans(defaultPlans);
       }
     } catch (error) {
       console.error('Error fetching plans:', error);

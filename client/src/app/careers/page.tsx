@@ -60,10 +60,14 @@ export default function CareersPage() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/jobs');
+      const response = await fetch('http://localhost:5002/api/jobs');
       if (response.ok) {
         const data = await response.json();
         setJobs(data.jobs);
+      } else {
+        console.error('API response not ok:', response.status);
+        // Fallback to default jobs if API fails
+        setJobs(defaultJobs);
       }
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -167,6 +171,285 @@ export default function CareersPage() {
       isActive: true,
       isRemote: false,
       createdAt: '2024-01-05'
+    },
+    {
+      id: '4',
+      title: 'AI/ML Engineering Intern',
+      department: 'Engineering',
+      location: 'Remote',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Gain hands-on experience with cutting-edge AI and machine learning technologies.',
+      requirements: [
+        'Currently pursuing Computer Science, AI, or related degree',
+        'Basic knowledge of Python and machine learning',
+        'Strong problem-solving and analytical skills',
+        'Passion for AI and research technology'
+      ],
+      responsibilities: [
+        'Assist in developing AI algorithms and models',
+        'Work on data preprocessing and analysis',
+        'Collaborate with senior engineers on research projects',
+        'Participate in code reviews and team meetings'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Mentorship from senior engineers',
+        'Flexible work hours',
+        'Potential for full-time conversion'
+      ],
+      salary: { min: 4000, max: 6000, currency: 'USD' },
+      isActive: true,
+      isRemote: true,
+      createdAt: '2024-01-20'
+    },
+    {
+      id: '5',
+      title: 'Frontend Development Intern',
+      department: 'Engineering',
+      location: 'San Francisco, CA',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Build beautiful and responsive user interfaces for our research platform.',
+      requirements: [
+        'Currently pursuing Computer Science or related degree',
+        'Knowledge of React, JavaScript, and CSS',
+        'Understanding of responsive design principles',
+        'Creative mindset and attention to detail'
+      ],
+      responsibilities: [
+        'Develop responsive web components',
+        'Implement user interface designs',
+        'Optimize application performance',
+        'Collaborate with design and backend teams'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Real-world project experience',
+        'Mentorship from senior developers',
+        'Networking opportunities'
+      ],
+      salary: { min: 3500, max: 5500, currency: 'USD' },
+      isActive: true,
+      isRemote: false,
+      createdAt: '2024-01-18'
+    },
+    {
+      id: '6',
+      title: 'Research Data Analyst Intern',
+      department: 'Research & Development',
+      location: 'Remote',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Analyze research data and contribute to our AI-powered insights platform.',
+      requirements: [
+        'Currently pursuing Data Science, Statistics, or related degree',
+        'Experience with Python, R, or similar tools',
+        'Understanding of statistical analysis',
+        'Interest in academic research and data visualization'
+      ],
+      responsibilities: [
+        'Analyze research data and trends',
+        'Create data visualizations and reports',
+        'Assist in developing data-driven insights',
+        'Support research team with data processing'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Exposure to real research data',
+        'Learning opportunities in data science',
+        'Potential for research publication'
+      ],
+      salary: { min: 3800, max: 5800, currency: 'USD' },
+      isActive: true,
+      isRemote: true,
+      createdAt: '2024-01-22'
+    },
+    {
+      id: '7',
+      title: 'Natural Language Processing Intern',
+      department: 'Research & Development',
+      location: 'Remote',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Work on cutting-edge NLP technologies to enhance our research assistance capabilities.',
+      requirements: [
+        'Currently pursuing Computer Science, Linguistics, or related degree',
+        'Basic knowledge of NLP concepts and techniques',
+        'Experience with Python and machine learning libraries',
+        'Interest in language processing and AI'
+      ],
+      responsibilities: [
+        'Assist in developing NLP models and algorithms',
+        'Work on text processing and analysis',
+        'Contribute to language model improvements',
+        'Research and implement new NLP techniques'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Exposure to state-of-the-art NLP technologies',
+        'Mentorship from NLP experts',
+        'Potential for research publication'
+      ],
+      salary: { min: 4200, max: 6200, currency: 'USD' },
+      isActive: true,
+      isRemote: true,
+      createdAt: '2024-01-25'
+    },
+    {
+      id: '8',
+      title: 'UX/UI Design Intern',
+      department: 'Design',
+      location: 'San Francisco, CA',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Create intuitive and beautiful user experiences for our research platform.',
+      requirements: [
+        'Currently pursuing Design, HCI, or related degree',
+        'Proficiency in design tools (Figma, Sketch, etc.)',
+        'Understanding of user-centered design principles',
+        'Portfolio demonstrating design skills'
+      ],
+      responsibilities: [
+        'Design user interfaces and user experiences',
+        'Conduct user research and usability testing',
+        'Create wireframes, prototypes, and mockups',
+        'Collaborate with product and engineering teams'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Real-world design experience',
+        'Mentorship from senior designers',
+        'Portfolio-building opportunities'
+      ],
+      salary: { min: 3500, max: 5500, currency: 'USD' },
+      isActive: true,
+      isRemote: false,
+      createdAt: '2024-01-23'
+    },
+    {
+      id: '9',
+      title: 'DevOps Engineering Intern',
+      department: 'Engineering',
+      location: 'Remote',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Learn cloud infrastructure and deployment automation for our research platform.',
+      requirements: [
+        'Currently pursuing Computer Science or related degree',
+        'Basic knowledge of Linux and command line',
+        'Interest in cloud computing and automation',
+        'Understanding of software development lifecycle'
+      ],
+      responsibilities: [
+        'Assist in cloud infrastructure management',
+        'Work on CI/CD pipeline automation',
+        'Monitor system performance and reliability',
+        'Learn about security best practices'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Hands-on experience with cloud platforms',
+        'Mentorship from DevOps engineers',
+        'Exposure to modern deployment practices'
+      ],
+      salary: { min: 3800, max: 5800, currency: 'USD' },
+      isActive: true,
+      isRemote: true,
+      createdAt: '2024-01-26'
+    },
+    {
+      id: '10',
+      title: 'Research Operations Intern',
+      department: 'Research & Development',
+      location: 'New York, NY',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Support research operations and help optimize our research workflows.',
+      requirements: [
+        'Currently pursuing Business, Operations, or related degree',
+        'Strong organizational and communication skills',
+        'Interest in research and academic operations',
+        'Proficiency in Microsoft Office and project management tools'
+      ],
+      responsibilities: [
+        'Assist in research project coordination',
+        'Help optimize research workflows and processes',
+        'Support data collection and analysis',
+        'Contribute to research documentation and reporting'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Exposure to research operations',
+        'Learning opportunities in project management',
+        'Networking with research professionals'
+      ],
+      salary: { min: 3200, max: 5200, currency: 'USD' },
+      isActive: true,
+      isRemote: false,
+      createdAt: '2024-01-24'
+    },
+    {
+      id: '11',
+      title: 'Marketing Analytics Intern',
+      department: 'Marketing',
+      location: 'Remote',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Analyze marketing data and help optimize our growth strategies.',
+      requirements: [
+        'Currently pursuing Marketing, Analytics, or related degree',
+        'Basic knowledge of analytics tools (Google Analytics, etc.)',
+        'Understanding of digital marketing concepts',
+        'Strong analytical and communication skills'
+      ],
+      responsibilities: [
+        'Analyze marketing campaign performance',
+        'Create data-driven marketing insights',
+        'Assist in A/B testing and optimization',
+        'Support marketing team with reporting'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Real-world marketing analytics experience',
+        'Mentorship from marketing professionals',
+        'Exposure to growth marketing strategies'
+      ],
+      salary: { min: 3000, max: 5000, currency: 'USD' },
+      isActive: true,
+      isRemote: true,
+      createdAt: '2024-01-27'
+    },
+    {
+      id: '12',
+      title: 'Content Strategy Intern',
+      department: 'Marketing',
+      location: 'Remote',
+      type: 'internship',
+      experience: 'Current student',
+      description: 'Create compelling content that educates and engages our research community.',
+      requirements: [
+        'Currently pursuing Communications, English, or related degree',
+        'Strong writing and editing skills',
+        'Interest in research and academic content',
+        'Understanding of content marketing principles'
+      ],
+      responsibilities: [
+        'Create blog posts and educational content',
+        'Assist in social media content creation',
+        'Help develop content marketing strategies',
+        'Support community engagement initiatives'
+      ],
+      benefits: [
+        'Competitive internship stipend',
+        'Portfolio-building opportunities',
+        'Mentorship from content professionals',
+        'Exposure to research community'
+      ],
+      salary: { min: 2800, max: 4800, currency: 'USD' },
+      isActive: true,
+      isRemote: true,
+      createdAt: '2024-01-28'
     }
   ];
 

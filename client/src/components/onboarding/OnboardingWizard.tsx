@@ -258,7 +258,7 @@ const OnboardingWizard: React.FC = () => {
         });
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002'}/api/onboarding`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api'}/onboarding`, {
         method: 'POST',
         body: formDataToSend,
       });
