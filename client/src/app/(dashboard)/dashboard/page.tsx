@@ -4,12 +4,9 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { 
-  GlobeAltIcon,
   DocumentTextIcon,
   AcademicCapIcon,
   Cog6ToothIcon,
-  RocketLaunchIcon,
-  BeakerIcon,
   UserGroupIcon,
   ChartBarIcon
 } from '@heroicons/react/24/outline';
@@ -113,10 +110,10 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-3">
-              Welcome back, {session.user?.firstName || session.user?.name}! 👋
+              Welcome back, {session.user?.name || 'User'}! 👋
             </h1>
             <p className="text-blue-100 text-lg">
-              Here's what's happening with your research today.
+              Here&apos;s what&apos;s happening with your research today.
             </p>
           </div>
           <div className="hidden md:block">

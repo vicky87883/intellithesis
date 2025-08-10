@@ -199,7 +199,7 @@ export default function ContactPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                We'd love to hear from you. Reach out to us for any questions, 
+                We&apos;d love to hear from you. Reach out to us for any questions, 
                 partnerships, or support you might need.
               </motion.p>
             </motion.div>
@@ -217,7 +217,7 @@ export default function ContactPage() {
                 Contact Information
               </h2>
               <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                Multiple ways to reach our team. We're here to help with any questions or support you need.
+                Multiple ways to reach our team. We&apos;re here to help with any questions or support you need.
               </p>
             </div>
 
@@ -310,7 +310,7 @@ export default function ContactPage() {
                 Send us a Message
               </h2>
               <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                Have a question or need assistance? Fill out the form below and we'll get back to you as soon as possible.
+                Have a question or need assistance? Fill out the form below and we&apos;ll get back to you as soon as possible.
               </p>
             </div>
 
@@ -395,7 +395,7 @@ export default function ContactPage() {
                   >
                     <CheckCircle className="w-5 h-5 text-green-500" />
                     <span className="text-green-700 dark:text-green-300">
-                      Thank you! Your message has been sent successfully. We'll get back to you soon.
+                      Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.
                     </span>
                   </motion.div>
                 )}

@@ -8,8 +8,6 @@ import Image from 'next/image';
 import { 
   Code2, 
   Brain, 
-  Lightbulb, 
-  BookOpen, 
   Users, 
   TrendingUp,
   ChevronRight,
@@ -27,12 +25,12 @@ import {
   Clock,
   Eye
 } from 'lucide-react';
-import { getStreamBySlug } from '@/types/streams';
+import { getStreamBySlug, Stream, ResearchTopic } from '@/types/streams';
 import Navbar from '@/components/layout/Navbar';
 import CodeEditor from '@/components/CodeEditor';
 
 export default function StreamPage() {
-  const [stream, setStream] = useState<any>(null);
+  const [stream, setStream] = useState<Stream | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { data: session, status } = useSession();
@@ -424,7 +422,7 @@ public class AlgorithmAnalysis {
               Trending Research Topics
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {stream.featuredTopics.map((topic: any, index: number) => (
+              {stream.featuredTopics.map((topic: ResearchTopic, index: number) => (
                 <motion.div
                   key={topic.id}
                   className="group relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"

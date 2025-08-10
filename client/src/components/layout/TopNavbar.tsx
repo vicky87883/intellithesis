@@ -255,7 +255,7 @@ export default function TopNavbar({ pageTitle = 'Dashboard', className = '', onS
                   <UserIcon className="h-4 w-4 text-white" />
                 </div>
                 <span className="hidden md:block text-sm font-medium">
-                  {session?.user?.firstName || session?.user?.name || 'User'}
+                  {session?.user?.name || 'User'}
                 </span>
                 <ChevronDownIcon className="hidden md:block h-4 w-4 text-gray-400 dark:text-gray-500" />
               </button>

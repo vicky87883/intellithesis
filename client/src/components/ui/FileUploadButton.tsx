@@ -13,7 +13,7 @@ interface FileUploadButtonProps {
 }
 
 export const FileUploadButton = forwardRef<HTMLInputElement, FileUploadButtonProps>(
-  ({ onFileSelect, accept, multiple = false, className = "", children, disabled = false }, ref) => {
+  ({ onFileSelect, accept, multiple = false, className = "", children, disabled = false }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleClick = () => {

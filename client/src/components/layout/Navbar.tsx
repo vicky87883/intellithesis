@@ -175,7 +175,7 @@ export default function Navbar() {
                         <UserIcon className="h-5 w-5 text-white" />
                       </div>
                       <span className="hidden sm:block text-sm font-medium">
-                        {session.user?.firstName || session.user?.name}
+                        {session.user?.name || 'User'}
                       </span>
                       <motion.div
                         animate={{ rotate: showUserMenu ? 180 : 0 }}

@@ -4,13 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  GlobeAltIcon,
-  CpuChipIcon,
-  BeakerIcon,
-  Cog6ToothIcon,
-  RocketLaunchIcon,
-  StarIcon,
-  ArrowRightIcon,
   MagnifyingGlassIcon,
   UserGroupIcon,
   ShieldCheckIcon,
@@ -23,7 +16,10 @@ import {
   AcademicCapIcon,
   LightBulbIcon,
   ChartBarIcon,
-  BuildingOfficeIcon
+  BuildingOfficeIcon,
+  Cog6ToothIcon,
+  ArrowRightIcon,
+  StarIcon
 } from '@heroicons/react/24/outline';
 import { 
   Code2,
@@ -246,12 +242,12 @@ export default function LandingPage() {
         <motion.div
           className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"
           animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
           className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-delayed"
           animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
@@ -359,7 +355,7 @@ export default function LandingPage() {
                 transition={{ 
                   duration: 8,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: 'easeInOut'
                 }}
               />
               
@@ -380,7 +376,7 @@ export default function LandingPage() {
                 transition={{ 
                   duration: 8,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: 'easeInOut'
                 }}
               />
               
@@ -395,7 +391,7 @@ export default function LandingPage() {
                 transition={{ 
                   duration: 8,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: 'easeInOut'
                 }}
               />
               
@@ -410,7 +406,7 @@ export default function LandingPage() {
                 transition={{ 
                   duration: 8,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: 'easeInOut'
                 }}
               />
               
@@ -750,18 +746,18 @@ export default function LandingPage() {
           <motion.div
             className="absolute top-20 left-10 w-72 h-72 bg-blue-400/30 rounded-full mix-blend-multiply filter blur-xl animate-float"
             animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
             className="absolute top-40 right-20 w-96 h-96 bg-purple-400/30 rounded-full mix-blend-multiply filter blur-xl animate-float"
             animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
             style={{ animationDelay: '2s' }}
           />
           <motion.div
             className="absolute bottom-20 left-1/4 w-64 h-64 bg-indigo-400/30 rounded-full mix-blend-multiply filter blur-xl animate-float"
             animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
             style={{ animationDelay: '4s' }}
           />
         </div>

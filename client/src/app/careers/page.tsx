@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Briefcase, 
@@ -10,7 +10,6 @@ import {
   Globe, 
   Heart,
   ArrowRight,
-  Filter,
   Search,
   Building2,
   Sparkles,
@@ -50,13 +49,43 @@ export default function CareersPage() {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [showRemoteOnly, setShowRemoteOnly] = useState(false);
 
+  const filterJobs = useCallback(() => {
+    let filtered = jobs.filter(job => job.isActive);
+
+    if (searchTerm) {
+      filtered = filtered.filter(job =>
+        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.department.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (selectedDepartment) {
+      filtered = filtered.filter(job => job.department === selectedDepartment);
+    }
+
+    if (selectedType) {
+      filtered = filtered.filter(job => job.type === selectedType);
+    }
+
+    if (selectedLocation) {
+      filtered = filtered.filter(job => job.location === selectedLocation);
+    }
+
+    if (showRemoteOnly) {
+      filtered = filtered.filter(job => job.isRemote);
+    }
+
+    setFilteredJobs(filtered);
+  }, [jobs, searchTerm, selectedDepartment, selectedType, selectedLocation, showRemoteOnly]);
+
   useEffect(() => {
     fetchJobs();
   }, []);
 
   useEffect(() => {
     filterJobs();
-  }, [jobs, searchTerm, selectedDepartment, selectedType, selectedLocation, showRemoteOnly]);
+  }, [filterJobs]);
 
   const fetchJobs = async () => {
     try {
@@ -453,35 +482,7 @@ export default function CareersPage() {
     }
   ];
 
-  const filterJobs = () => {
-    let filtered = jobs.filter(job => job.isActive);
 
-    if (searchTerm) {
-      filtered = filtered.filter(job =>
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.description.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (selectedDepartment) {
-      filtered = filtered.filter(job => job.department === selectedDepartment);
-    }
-
-    if (selectedType) {
-      filtered = filtered.filter(job => job.type === selectedType);
-    }
-
-    if (selectedLocation) {
-      filtered = filtered.filter(job => job.location === selectedLocation);
-    }
-
-    if (showRemoteOnly) {
-      filtered = filtered.filter(job => job.isRemote);
-    }
-
-    setFilteredJobs(filtered);
-  };
 
   const departments = [...new Set(jobs.map(job => job.department))];
   const locations = [...new Set(jobs.map(job => job.location))];
@@ -622,7 +623,7 @@ export default function CareersPage() {
                 Why Work at IntelliThesis?
               </h2>
               <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                Join a team that's passionate about advancing research and making knowledge accessible to everyone.
+                Join a team that&apos;s passionate about advancing research and making knowledge accessible to everyone.
               </p>
             </div>
 

@@ -6,7 +6,7 @@ import { X, Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { authAPI } from '@/services/api';
+
 import { useAuth } from '@/contexts/AuthContext';
 
 interface AuthModalProps {
@@ -14,7 +14,7 @@ interface AuthModalProps {
   onClose: () => void;
   mode: 'signin' | 'signup';
   onModeChange: (mode: 'signin' | 'signup') => void;
-  onAuthSuccess?: (user: any, token: string) => void;
+  onAuthSuccess?: (user: unknown, token: string) => void;
 }
 
 const signinSchema = z.object({
@@ -82,9 +82,9 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange, onAuthS
         // Redirect to dashboard after registration
         window.location.href = '/dashboard';
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Auth error:', error);
-      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+      setError((error as any)?.response?.data?.message || 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

@@ -63,15 +63,15 @@ const getUserId = () => {
 
 // API endpoints
 export const authAPI = {
-  register: (userData: any) => api.post('/auth/register', userData),
-  login: (credentials: any) => api.post('/auth/login', credentials),
+  register: (userData: unknown) => api.post('/auth/register', userData),
+  login: (credentials: unknown) => api.post('/auth/login', credentials),
   getCurrentUser: () => api.get('/auth/me'),
   logout: () => api.post('/auth/logout'),
 };
 
 export const userAPI = {
   getProfile: () => api.get('/user/profile'),
-  updateProfile: (data: any) => api.put('/user/profile', data),
+  updateProfile: (data: unknown) => api.put('/user/profile', data),
 };
 
 export const documentAPI = {
@@ -80,7 +80,7 @@ export const documentAPI = {
   }),
   getAll: () => api.get('/documents'),
   getById: (id: string) => api.get(`/documents/${id}`),
-  update: (id: string, data: any) => api.put(`/documents/${id}`, data),
+  update: (id: string, data: unknown) => api.put(`/documents/${id}`, data),
   delete: (id: string) => api.delete(`/documents/${id}`),
   analyze: (id: string) => api.post(`/documents/${id}/analyze`),
 };

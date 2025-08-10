@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/providers/SessionProvider";
-import { AnimatePresence } from "framer-motion";
+import AnimateProvider from "@/components/providers/AnimateProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({ 
@@ -36,11 +36,11 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className={`${inter.className} ${poppins.variable} antialiased`}>
         <SessionProvider>
-          <AnimatePresence mode="wait">
+          <AnimateProvider>
             <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
               {children}
             </div>
-          </AnimatePresence>
+          </AnimateProvider>
         </SessionProvider>
       </body>
     </html>

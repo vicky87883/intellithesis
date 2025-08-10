@@ -328,7 +328,7 @@ export default function StreamsPage() {
                   <div className="flex items-center">
                     <StarIcon className="w-4 h-4 text-yellow-400 fill-current" />
                     <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">
-                      {stream.rating || 4.5}
+                      4.5
                     </span>
                   </div>
                 </div>

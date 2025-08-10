@@ -1,15 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, 
   Calendar, 
   Clock, 
   User, 
-  Tag, 
   Search,
-  Filter,
   ArrowRight,
   Heart,
   Eye,
@@ -47,13 +45,38 @@ export default function BlogsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(9);
 
+  const filterBlogs = useCallback(() => {
+    let filtered = blogs.filter(blog => blog.isPublished);
+
+    if (searchTerm) {
+      filtered = filtered.filter(blog =>
+        blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog.author.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (selectedCategory) {
+      filtered = filtered.filter(blog => blog.category === selectedCategory);
+    }
+
+    if (selectedTag) {
+      filtered = filtered.filter(blog => 
+        blog.tags.some(tag => tag.toLowerCase().includes(selectedTag.toLowerCase()))
+      );
+    }
+
+    setFilteredBlogs(filtered);
+    setCurrentPage(1);
+  }, [blogs, searchTerm, selectedCategory, selectedTag]);
+
   useEffect(() => {
     fetchBlogs();
   }, []);
 
   useEffect(() => {
     filterBlogs();
-  }, [blogs, searchTerm, selectedCategory, selectedTag]);
+  }, [filterBlogs]);
 
   const fetchBlogs = async () => {
     try {
@@ -402,30 +425,7 @@ export default function BlogsPage() {
     }
   ];
 
-  const filterBlogs = () => {
-    let filtered = blogs.filter(blog => blog.isPublished);
 
-    if (searchTerm) {
-      filtered = filtered.filter(blog =>
-        blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        blog.author.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (selectedCategory) {
-      filtered = filtered.filter(blog => blog.category === selectedCategory);
-    }
-
-    if (selectedTag) {
-      filtered = filtered.filter(blog => 
-        blog.tags.some(tag => tag.toLowerCase().includes(selectedTag.toLowerCase()))
-      );
-    }
-
-    setFilteredBlogs(filtered);
-    setCurrentPage(1);
-  };
 
   const categories = [...new Set(blogs.map(blog => blog.category))];
   const allTags = blogs.flatMap(blog => blog.tags);

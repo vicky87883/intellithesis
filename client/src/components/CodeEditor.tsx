@@ -4,12 +4,11 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Play, 
-  Square, 
+  Square,
   Download, 
   Share2, 
   Copy, 
   RotateCcw,
-  Settings,
   Terminal,
   CheckCircle,
   AlertCircle,
@@ -22,7 +21,7 @@ interface CodeEditorProps {
   defaultValue: string;
   theme?: 'vs-dark' | 'light';
   height?: string;
-  onRun?: (code: string, language: string) => Promise<any>;
+  onRun?: (code: string, language: string) => Promise<unknown>;
 }
 
 export default function CodeEditor({ 
@@ -39,9 +38,9 @@ export default function CodeEditor({
   const [executionTime, setExecutionTime] = useState<number>(0);
   const [copied, setCopied] = useState(false);
   const [showOutput, setShowOutput] = useState(false);
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<unknown>(null);
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: unknown) => {
     editorRef.current = editor;
   };
 
@@ -66,10 +65,10 @@ export default function CodeEditor({
           // Create a safe execution environment
           const sandbox = {
             console: {
-              log: (...args: any[]) => {
+              log: (...args: unknown[]) => {
                 setOutput(prev => prev + args.join(' ') + '\n');
               },
-              error: (...args: any[]) => {
+              error: (...args: unknown[]) => {
                 setOutput(prev => prev + 'ERROR: ' + args.join(' ') + '\n');
               }
             },
@@ -94,8 +93,8 @@ export default function CodeEditor({
           setOutput(`Language ${language} execution not yet implemented\n`);
           setIsSuccess(false);
         }
-      } catch (error: any) {
-        setOutput(`Error: ${error.message}\n`);
+      } catch (error: unknown) {
+        setOutput(`Error: ${(error as Error).message}\n`);
         setIsSuccess(false);
       } finally {
         setIsRunning(false);
@@ -113,8 +112,8 @@ export default function CodeEditor({
         
         setOutput(typeof result === 'string' ? result : JSON.stringify(result, null, 2));
         setIsSuccess(true);
-      } catch (error: any) {
-        setOutput(`Error: ${error.message}\n`);
+      } catch (error: unknown) {
+        setOutput(`Error: ${(error as Error).message}\n`);
         setIsSuccess(false);
       } finally {
         setIsRunning(false);

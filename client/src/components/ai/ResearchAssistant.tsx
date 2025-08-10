@@ -54,7 +54,7 @@ export function ResearchAssistant() {
   // Debug session data
   useEffect(() => {
     console.log('Session data:', session);
-    console.log('User ID:', session?.user?.id);
+    console.log('User ID:', (session?.user as any)?.id);
   }, [session]);
 
   // Auto-scroll to bottom when new messages arrive
@@ -64,10 +64,10 @@ export function ResearchAssistant() {
 
   // Load chat sessions on mount
   useEffect(() => {
-    if (session?.user?.id) {
+    if ((session?.user as any)?.id) {
       loadChatSessions();
     }
-  }, [session?.user?.id]);
+  }, [(session?.user as any)?.id]);
 
   // Initialize with welcome message
   useEffect(() => {
@@ -84,7 +84,7 @@ export function ResearchAssistant() {
   }, []);
 
   const loadChatSessions = async () => {
-    const userId = session?.user?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
+    const userId = (session?.user as any)?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
     
     try {
       const response = await chatAPI.getHistory(userId);
@@ -142,7 +142,7 @@ export function ResearchAssistant() {
     if (!inputMessage.trim()) return;
     
     // Use session user ID or fallback to a default user ID
-    const userId = session?.user?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
+    const userId = (session?.user as any)?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
     
     console.log('Sending message with user ID:', userId);
 
@@ -193,7 +193,7 @@ export function ResearchAssistant() {
   };
 
   const handleFileUpload = async (files: FileList, type: 'document' | 'image') => {
-    const userId = session?.user?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
+    const userId = (session?.user as any)?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
 
     setIsUploading(true);
 
@@ -271,7 +271,7 @@ export function ResearchAssistant() {
   };
 
   const handleVoiceUpload = async (audioBlob: Blob) => {
-    const userId = session?.user?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
+    const userId = (session?.user as any)?.id || 'eb5dba5c-ab36-4469-a169-bb987d61f67a';
 
     try {
       const audioFile = new File([audioBlob], "voice_message.wav", { type: "audio/wav" });

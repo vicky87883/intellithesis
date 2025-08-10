@@ -22,7 +22,7 @@ export default function CodeEditor({ codeSnippets, streamSlug }: CodeEditorProps
   const [selectedLanguage, setSelectedLanguage] = useState('python');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isReadOnly, setIsReadOnly] = useState(true);
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<unknown>(null);
 
   const languages = [
     { id: 'python', name: 'Python', icon: '🐍' },
@@ -32,7 +32,7 @@ export default function CodeEditor({ codeSnippets, streamSlug }: CodeEditorProps
 
   const currentCode = codeSnippets[selectedLanguage] || '';
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: unknown) => {
     editorRef.current = editor;
   };
 
@@ -43,13 +43,13 @@ export default function CodeEditor({ codeSnippets, streamSlug }: CodeEditorProps
 
   const handleCopyCode = () => {
     if (editorRef.current) {
-      const code = editorRef.current.getValue();
+      const code = (editorRef.current as any).getValue();
       navigator.clipboard.writeText(code);
     }
   };
 
   const handleDownloadCode = () => {
-    const code = editorRef.current?.getValue() || currentCode;
+    const code = (editorRef.current as any)?.getValue() || currentCode;
     const blob = new Blob([code], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -63,7 +63,7 @@ export default function CodeEditor({ codeSnippets, streamSlug }: CodeEditorProps
 
   const handleRunCode = () => {
     // This would integrate with a backend service to run code
-    console.log('Running code:', editorRef.current?.getValue());
+    console.log('Running code:', (editorRef.current as any)?.getValue());
   };
 
   return (
@@ -199,7 +199,7 @@ export default function CodeEditor({ codeSnippets, streamSlug }: CodeEditorProps
           <span className="text-gray-500">Ready to run code...</span>
         </div>
         <div className="text-gray-400">
-          Click "Run" to execute the code and see the output here.
+          Click &quot;Run&quot; to execute the code and see the output here.
         </div>
       </div>
     </div>
